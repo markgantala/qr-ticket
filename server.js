@@ -9,14 +9,20 @@ const fs = require('fs');
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-// Database connection
+// Database connection – using DATABASE_URL (for Supabase)
 const pool = new Pool({
-    user: process.env.DB_USER,
-    password: process.env.DB_PASSWORD,
-    host: process.env.DB_HOST,
-    port: process.env.DB_PORT,
-    database: process.env.DB_NAME,
+    connectionString: process.env.DATABASE_URL,
+    ssl: { rejectUnauthorized: false }   // Required for Supabase
 });
+
+// (Optional) Keep your old separate variables as fallback, but not needed
+// const pool = new Pool({
+//     user: process.env.DB_USER,
+//     password: process.env.DB_PASSWORD,
+//     host: process.env.DB_HOST,
+//     port: process.env.DB_PORT,
+//     database: process.env.DB_NAME,
+// });
 
 // Initialize tables on startup
 async function initDatabase() {
@@ -42,12 +48,15 @@ app.use(bodyParser.json({ limit: '10mb' }));
 app.use(bodyParser.urlencoded({ extended: true, limit: '10mb' }));
 app.use(express.static(path.join(__dirname, 'public')));
 
-// Session for admin
+// Session for admin – allow secure cookie in production (Render uses HTTPS)
 app.use(session({
     secret: process.env.SESSION_SECRET,
     resave: false,
     saveUninitialized: false,
-    cookie: { secure: false, maxAge: 3600000 }
+    cookie: { 
+        secure: process.env.NODE_ENV === 'production', // true on Render (HTTPS)
+        maxAge: 3600000 
+    }
 }));
 
 // Make pool accessible in routes
