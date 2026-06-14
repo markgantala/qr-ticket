@@ -10,9 +10,11 @@ const app = express();
 const PORT = process.env.PORT || 3000;
 
 // Database connection – using DATABASE_URL (for Supabase)
+const { Pool } = require('pg');
+
 const pool = new Pool({
     connectionString: process.env.DATABASE_URL,
-    ssl: { rejectUnauthorized: false }   // Required for Supabase
+    ssl: { rejectUnauthorized: false }   // This line is the key
 });
 
 // (Optional) Keep your old separate variables as fallback, but not needed
