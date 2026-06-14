@@ -3,28 +3,17 @@ const express = require('express');
 const session = require('express-session');
 const bodyParser = require('body-parser');
 const path = require('path');
-const { Pool } = require('pg');
+const { Pool } = require('pg');   // ✅ declared only once
 const fs = require('fs');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
 
 // Database connection – using DATABASE_URL (for Supabase)
-const { Pool } = require('pg');
-
 const pool = new Pool({
     connectionString: process.env.DATABASE_URL,
-    ssl: { rejectUnauthorized: false }   // This line is the key
+    ssl: { rejectUnauthorized: false }   // Required for Supabase
 });
-
-// (Optional) Keep your old separate variables as fallback, but not needed
-// const pool = new Pool({
-//     user: process.env.DB_USER,
-//     password: process.env.DB_PASSWORD,
-//     host: process.env.DB_HOST,
-//     port: process.env.DB_PORT,
-//     database: process.env.DB_NAME,
-// });
 
 // Initialize tables on startup
 async function initDatabase() {
