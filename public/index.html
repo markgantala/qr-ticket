@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>QR Ticket Menu</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+<!-- Sticky Header with Logo/Brand and Cart -->
+<div class="sticky-header">
+    <div class="header-content">
+        <div class="logo-area">
+            <img src="/logo%20(2).png" alt="Logo" class="logo-img">
+
+            <span class="brand-name">Brews DJ</span>
+        </div>
+        <button class="cart-button-top" onclick="toggleCart()">
+            🛒 <span id="cartCount">0</span>
+        </button>
+    </div>
+</div>
+
+<!-- Centered "Our Menu" heading (scrolls normally) -->
+<div class="menu-heading">
+    <h1>Our Menu</h1>
+</div>
+
+<div class="container">
+    <div class="category-tabs" id="categoryTabs"></div>
+    <div id="products-container" class="menu-grid"></div>
+</div>
+
+<!-- Cart Sidebar -->
+<div id="cartSidebar" class="cart-sidebar">
+    <button onclick="toggleCart()" style="background:none; color:black; float:right; font-size:24px;">✕</button>
+    <h3>🛒 Your Order</h3>
+    <div id="cart-items"></div>
+    <div class="cart-total">Total: ₱<span id="cart-total">0</span></div>
+    <div class="cart-actions">
+        <input type="text" id="customerName" placeholder="Your name (optional)">
+        <select id="paymentMethod">
+    <option value="cash">💵 Pay at counter (Cash)</option>
+    <option value="digital" disabled>📱 Digital Payment (Currently Unavailable)</option>
+</select>
+
+        <button onclick="placeOrder()">✅ Place Order</button>
+    </div>
+    <div id="orderResult"></div>
+</div>
+
+<script src="/js/customer.js"></script>
+</body>
+</html>

@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Admin Dashboard - QR Ticket System</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+<div class="container">
+    <div class="admin-header">
+        <h1>📊 Owner Dashboard</h1>
+        <button onclick="logout()" class="danger">Logout</button>
+    </div>
+
+    <!-- Navigation Bar -->
+    <div class="admin-nav">
+        <button class="nav-btn active" onclick="showSection('orders')">📦 Live Orders</button>
+        <button class="nav-btn" onclick="showSection('products')">🍔 Products</button>
+        <button class="nav-btn" onclick="showSection('reports')">📈 Sales Report</button>
+    </div>
+
+    <!-- Orders Section -->
+    <div id="ordersSection" class="admin-section">
+        <div class="orders-section">
+            <h3>Live Orders (Newest first)</h3>
+            <div id="orders-list"></div>
+        </div>
+    </div>
+
+    <!-- Products Section (combined: add product + manage categories + product list) -->
+    <div id="productsSection" class="admin-section" style="display: none;">
+        <!-- Add Product Form -->
+        <div class="management-section">
+            <h3>➕ Add New Product</h3>
+            <div class="form-group">
+                <label>Product Name</label>
+                <input type="text" id="prodName" placeholder="e.g., Chicken Adobo">
+            </div>
+            <div class="form-group">
+                <label>Price (₱)</label>
+                <input type="number" id="prodPrice" step="0.01" placeholder="0.00">
+            </div>
+            <div class="form-group">
+                <label>Category</label>
+                <select id="prodCategory"></select>
+            </div>
+            <div class="form-group">
+                <label>Product Image</label>
+                <input type="file" id="prodImage" accept="image/*">
+                <div id="imagePreview" style="margin-top: 10px;"></div>
+            </div>
+            <button onclick="createProduct()">➕ Add Product</button>
+        </div>
+
+        <!-- Manage Categories -->
+        <div class="management-section">
+            <h3>📁 Manage Categories</h3>
+            <div class="form-group">
+                <label>New Category Name</label>
+                <input type="text" id="newCategoryName" placeholder="e.g., Breakfast">
+            </div>
+            <button onclick="createCategory()">➕ Add Category</button>
+            <div id="categories-list" style="margin-top: 15px;"></div>
+        </div>
+
+        <!-- All Products List -->
+        <div class="management-section">
+            <h3>📦 All Products (Sorted by Popularity)</h3>
+            <div id="products-list"></div>
+        </div>
+    </div>
+
+    <!-- Reports Section -->
+<div id="reportsSection" class="admin-section" style="display: none;">
+    <div class="management-section">
+        <h3>📈 Daily Sales Report</h3>
+        <div style="overflow-x: auto;">
+            <table class="report-table">
+                <thead>
+                    <tr><th>Date</th><th>Orders</th><th>Revenue (₱)</th></tr>
+                </thead>
+                <tbody id="report-body">
+                    <tr><td colspan="3">Loading...</td></tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<!-- Edit Product Modal -->
+<div id="editModal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.5); z-index:2000; align-items:center; justify-content:center;">
+    <div style="background:white; padding:30px; border-radius:20px; width:400px; max-width:90%;">
+        <h3>✏️ Edit Product</h3>
+        <input type="hidden" id="editProductId">
+        <div class="form-group">
+            <label>Name</label>
+            <input type="text" id="editName">
+        </div>
+        <div class="form-group">
+            <label>Price</label>
+            <input type="number" id="editPrice" step="0.01">
+        </div>
+        <div class="form-group">
+            <label>Category</label>
+            <select id="editCategory"></select>
+        </div>
+        <div class="form-group">
+            <label>Change Image (optional)</label>
+            <input type="file" id="editImage" accept="image/*">
+            <div id="editImagePreview" style="margin-top:10px;"></div>
+        </div>
+        <div style="display:flex; gap:10px; margin-top:20px;">
+            <button onclick="updateProduct()">Save Changes</button>
+            <button onclick="closeEditModal()" style="background:#666;">Cancel</button>
+        </div>
+    </div>
+</div>
+
+<script src="/js/admin.js"></script>
+</body>
+</html>
